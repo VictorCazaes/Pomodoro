@@ -1,9 +1,8 @@
 Notification.requestPermission()
 const pomodoro = document.querySelector('.pomodoro-clock')
 const tab = document.querySelector('.tab')
-const background = document.querySelector('main')
-// let initialTimer = 1499000 - 25 minutes
-let initialTimer = 10000;
+const background = document.querySelector('body')
+let initialTimer = 1499000;
 
 var handle = null;
 let rest = false;
@@ -11,21 +10,14 @@ let rest = false;
 function updateDisplay() {
     let minutes = Math.floor(initialTimer / 60000)
     let seconds = (initialTimer % 60000) / 1000
-    if (minutes < 10 && seconds <= 10) {
-        if (seconds == 10) {
-            pomodoro.innerHTML = `0${minutes}:${seconds}`
-            tab.innerHTML = `0${minutes}:${seconds} - Pomodoro`
-        } else {
-            pomodoro.innerHTML = `0${minutes}:0${seconds}`
-            tab.innerHTML = `0${minutes}:0${seconds} - Pomodoro`
-        }
-    } else if (seconds < 10) {
-        pomodoro.innerHTML = `${minutes}:0${seconds}`
-        tab.innerHTML = `${minutes}:0${seconds} - Pomodoro`
-    } else {
-        pomodoro.innerHTML = `${minutes}:${seconds}`
-        tab.innerHTML = `${minutes}:${seconds} - Pomodoro`
+    if (minutes < 10) {
+        minutes = `0${minutes}`
     }
+    if (seconds < 10) {
+        seconds = `0${seconds}`
+    }
+    pomodoro.innerHTML = `${minutes}:${seconds}`
+    tab.innerHTML = `${minutes}:${seconds} - Pomodoro`
     initialTimer = initialTimer - 1000
     if ((initialTimer < 0) && rest == false) {
         pause.classList.add('hidden')
@@ -36,8 +28,7 @@ function updateDisplay() {
             body: "It's time to rest for five minutes."
         })
         pomodoro.innerHTML = '05:00'
-        // initialTimer = 300000 - 5 minutes
-        initialTimer = 5000
+        initialTimer = 300000;
         rest = true;
         background.classList.toggle('rest')
     } else if ((initialTimer < 0)) {
@@ -49,8 +40,7 @@ function updateDisplay() {
             body: "It's time to keep working for twenty five minutes."
         })
         pomodoro.innerHTML = '25:00'
-        // initialTimer = 1499000; - 25 minutes
-        initialTimer = 10000
+        initialTimer = 1499000;
         rest = false;
         background.classList.toggle('rest')
     }
@@ -78,13 +68,13 @@ stop.addEventListener('click', () => {
     handle = null;
     if (rest) {
         pomodoro.innerHTML = '05:00'
-        // initialTimer = 300000 - 5 minutes
-        initialTimer = 5000
+        tab.innerHTML = '05:00 - Pomodoro'
+        initialTimer = 300000;
         rest = true;
     } else {
         pomodoro.innerHTML = '25:00'
-        // initialTimer = 1499000
-        initialTimer = 10000
+        tab.innerHTML = '25:00 - Pomodoro'
+        initialTimer = 1499000;
         rest = false;
     }
 })
