@@ -1,9 +1,10 @@
+Notification.requestPermission()
 const pomodoro = document.querySelector('.pomodoro-clock')
 // let initialTimer = 1499000 - 25 minutes
 let initialTimer = 10000;
 
 var handle = null;
-let flag = false;
+let rest = false;
 
 function updateDisplay() {
     let minutes = Math.floor(initialTimer / 60000)
@@ -20,24 +21,30 @@ function updateDisplay() {
         pomodoro.innerHTML = `${minutes}:${seconds}`
     }
     initialTimer = initialTimer - 1000
-    if ((initialTimer < 0) && flag == false) {
+    if ((initialTimer < 0) && rest == false) {
         pause.classList.add('hidden')
         play.classList.remove('hidden')
         clearInterval(handle)
         handle = null;
+        new Notification("Take a break", {
+            body: "It's time to rest for five minutes."
+        })
         pomodoro.innerHTML = '05:00'
         // initialTimer = 300000 - 5 minutes
         initialTimer = 5000
-        flag = true;
+        rest = true;
     } else if ((initialTimer < 0)) {
         pause.classList.add('hidden')
         play.classList.remove('hidden')
         clearInterval(handle)
         handle = null;
+        new Notification("Back to focus", {
+            body: "It's time to keep working for twenty five minutes."
+        })
         pomodoro.innerHTML = '25:00'
         // initialTimer = 1499000; - 25 minutes
         initialTimer = 10000
-        flag = false;
+        rest = false;
     }
 }
 
@@ -61,15 +68,15 @@ stop.addEventListener('click', () => {
     play.classList.remove('hidden')
     clearInterval(handle)
     handle = null;
-    if (flag) {
+    if (rest) {
         pomodoro.innerHTML = '05:00'
         // initialTimer = 300000 - 5 minutes
         initialTimer = 5000
-        flag = true;
+        rest = true;
     } else {
         pomodoro.innerHTML = '25:00'
         // initialTimer = 1499000
         initialTimer = 10000
-        flag = false;
+        rest = false;
     }
 })
