@@ -1,5 +1,7 @@
 Notification.requestPermission()
 const pomodoro = document.querySelector('.pomodoro-clock')
+const tab = document.querySelector('.tab')
+const background = document.querySelector('main')
 // let initialTimer = 1499000 - 25 minutes
 let initialTimer = 10000;
 
@@ -12,13 +14,17 @@ function updateDisplay() {
     if (minutes < 10 && seconds <= 10) {
         if (seconds == 10) {
             pomodoro.innerHTML = `0${minutes}:${seconds}`
+            tab.innerHTML = `0${minutes}:${seconds} - Pomodoro`
         } else {
             pomodoro.innerHTML = `0${minutes}:0${seconds}`
+            tab.innerHTML = `0${minutes}:0${seconds} - Pomodoro`
         }
     } else if (seconds < 10) {
         pomodoro.innerHTML = `${minutes}:0${seconds}`
+        tab.innerHTML = `${minutes}:0${seconds} - Pomodoro`
     } else {
         pomodoro.innerHTML = `${minutes}:${seconds}`
+        tab.innerHTML = `${minutes}:${seconds} - Pomodoro`
     }
     initialTimer = initialTimer - 1000
     if ((initialTimer < 0) && rest == false) {
@@ -33,6 +39,7 @@ function updateDisplay() {
         // initialTimer = 300000 - 5 minutes
         initialTimer = 5000
         rest = true;
+        background.classList.toggle('rest')
     } else if ((initialTimer < 0)) {
         pause.classList.add('hidden')
         play.classList.remove('hidden')
@@ -45,6 +52,7 @@ function updateDisplay() {
         // initialTimer = 1499000; - 25 minutes
         initialTimer = 10000
         rest = false;
+        background.classList.toggle('rest')
     }
 }
 
